@@ -15,6 +15,12 @@ pub extern "C" fn _start() -> ! {
 
     blog_os::init();
 
+    use x86_64::registers::control::Cr3;
+
+    //  returns the currently active level 4 page table from the CR3 register.
+    let (level_4_page_table, _) = Cr3::read();
+    println!("Level 4 page table at: {:?}", level_4_page_table.start_address());
+
     #[cfg(test)]
     test_main();
     println!("It did not crash");
